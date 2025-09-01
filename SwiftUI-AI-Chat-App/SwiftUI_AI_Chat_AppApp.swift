@@ -11,7 +11,7 @@ import SwiftUI
 struct SwiftUI_AI_Chat_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreenView()
         }
     }
 }
