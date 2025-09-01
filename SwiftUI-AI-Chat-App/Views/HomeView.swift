@@ -89,7 +89,7 @@ struct HomeView: View {
                             .tint(.green)
                         }
                     }
-                    .padding(.vertical, 5)
+                    .padding(.vertical, 6)
                     .listRowBackground(Color.primaryBackground)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .listRowSeparator(.hidden)
