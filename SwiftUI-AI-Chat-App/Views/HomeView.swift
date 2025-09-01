@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 0) {
             HStack(spacing: 10) {
                 ZStack {
                     Circle()
@@ -47,8 +47,9 @@ struct HomeView: View {
             .frame(height: 42)
             .padding(.horizontal, 20)
             
+            Spacer(minLength: 30)
             
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("Last Prompts")
                     .fontWeight(.bold)
                     .font(Font.system(size: 20))
@@ -80,7 +81,35 @@ struct HomeView: View {
             }
             .padding(.horizontal, 20)
             .frame(maxHeight: .infinity)
+            .overlay(
+                // Fade effect at the bottom
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.primaryBackground.opacity(0),  // fully transparent
+                        Color.primaryBackground              // solid background
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 100), // adjust height of fade
+                alignment: .bottom
+            )
             
+            
+            Button(action: {
+                /// Action here
+            }) {
+                Text("Ask Me Anything")
+                    .fontWeight(.bold)
+                    .font(Font.system(size: 22))
+                    .foregroundStyle(.primaryWhite)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 60)
+            .background(.primaryOrange)
+            .cornerRadius(10)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
             
         }
         .padding(.top, 10)
