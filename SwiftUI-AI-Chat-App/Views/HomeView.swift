@@ -55,29 +55,47 @@ struct HomeView: View {
                     .font(Font.system(size: 20))
                     .foregroundStyle(.primaryText)
                 
-                ScrollView {
-                    LazyVStack(spacing: 10) {
-                        ForEach(0..<5) { item in
-                            HStack {
-                                Image(systemName: "ellipsis.message.fill")
-                                    .frame(width: 32, height: 32)
-                                    .imageScale(.medium)
-                                    .foregroundStyle(.primaryWhite)
-                                
-                                Text("Explain quantum computing in simple terms")
-                                    .font(Font.system(size: 16))
-                                    .foregroundStyle(.primaryText)
-                                    .lineLimit(1)
-                                
-                                Spacer()
+                List {
+                    ForEach(0..<5) { item in
+                        HStack {
+                            Image(systemName: "ellipsis.message.fill")
+                                .frame(width: 32, height: 32)
+                                .imageScale(.medium)
+                                .foregroundStyle(.primaryWhite)
+                            
+                            Text("Explain quantum computing in simple terms")
+                                .font(.system(size: 16))
+                                .foregroundStyle(.primaryText)
+                                .lineLimit(1)
+                            
+                            Spacer()
+                        }
+                        .padding(10)
+                        .background(.secondaryBackground)
+                        .cornerRadius(10)
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                print("Delete item \(item)")
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
-                            .padding(10)
-                            .background(.secondaryBackground)
-                            .cornerRadius(10)
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                print("Liked item \(item)")
+                            } label: {
+                                Label("Like", systemImage: "hand.thumbsup.fill")
+                            }
+                            .tint(.green)
                         }
                     }
+                    .padding(.vertical, 5)
+                    .listRowBackground(Color.primaryBackground)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
                 }
-                .frame(maxHeight: .infinity)
+                .listStyle(.plain)
+                
             }
             .padding(.horizontal, 20)
             .frame(maxHeight: .infinity)
