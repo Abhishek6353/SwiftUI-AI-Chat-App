@@ -80,14 +80,14 @@ struct HomeView: View {
                                 Label("Delete", systemImage: "trash")
                             }
                         }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                print("Liked item \(item)")
-                            } label: {
-                                Label("Like", systemImage: "hand.thumbsup.fill")
-                            }
-                            .tint(.green)
-                        }
+//                        .swipeActions(edge: .leading) {
+//                            Button {
+//                                print("Liked item \(item)")
+//                            } label: {
+//                                Label("Like", systemImage: "hand.thumbsup.fill")
+//                            }
+//                            .tint(.green)
+//                        }
                     }
                     .padding(.vertical, 6)
                     .listRowBackground(Color.primaryBackground)
