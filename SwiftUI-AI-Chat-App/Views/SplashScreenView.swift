@@ -14,7 +14,7 @@ struct SplashScreenView: View {
     
     var body: some View {
         if isActive {
-            HomeView() // 👈 your main app view
+            HomeView()
         } else {
             VStack() {
                 Image("logo") // Replace with your logo
@@ -30,17 +30,13 @@ struct SplashScreenView: View {
                         }
                     }
             }
-            .onAppear {
-                // Switch to main view after delay
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-                    withAnimation {
-                        self.isActive = true
-                    }
-                }
-            }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.primaryBackground)
             .ignoresSafeArea()
+            .task {
+                try? await Task.sleep(for: .seconds(1.1))
+                withAnimation { isActive = true }
+            }
         }
     }
 }
