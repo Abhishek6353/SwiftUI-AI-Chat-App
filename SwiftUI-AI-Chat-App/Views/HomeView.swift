@@ -120,7 +120,7 @@ struct HomeView: View {
                         .font(.system(size: 22))
                         .foregroundStyle(.primaryWhite)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 60)
+                        .frame(height: 52)
                         .background(.primaryOrange)
                         .cornerRadius(10)
                         .padding(.horizontal, 20)

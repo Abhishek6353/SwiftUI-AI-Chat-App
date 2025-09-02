@@ -42,13 +42,26 @@ struct ChatView: View {
             .padding(.bottom, 15)
             .background(.secondaryBackground)
             
-            ScrollView {
-                ForEach(vm.messages) { msg in
-                    ChatBubbleView(message: msg)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 8) {
+                        ForEach(vm.messages) { msg in
+                            ChatBubbleView(message: msg)
+                                .id(msg.id)
+                        }
+                    }
+                    .padding(.top, 30)
                 }
-                .padding(.top, 30)
+                .onChange(of: vm.messages.count) { _ in
+                    if let lastID = vm.messages.last?.id {
+                        withAnimation {
+                            proxy.scrollTo(lastID, anchor: .bottom)
+                        }
+                    }
+                }
+                .ignoresSafeArea(.keyboard, edges: .bottom)
+
             }
-            
             
             HStack {
                 TextField(
@@ -69,27 +82,26 @@ struct ChatView: View {
                 }) {
                     Image(systemName: "arrow.up")
                         .foregroundColor(.primaryWhite)
-                        .padding()
+                        .frame(width: 40, height: 40)
                         .background(.primaryOrange)
                     
                 }
                 .clipShape(.circle)
-                .padding(.trailing, 10)
+                .padding(.trailing, 6)
                 
             }
-            .frame(height: 60)
+            .frame(height: 52)
             .background(.secondaryBackground)
             .border(.primaryBorder, width: 2)
             .clipShape(.capsule)
             .padding(.horizontal, 20)
-            .padding(.bottom, 35)
+            .padding(.bottom, 10)
             
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBackground)
         .navigationBarHidden(true)
-        .ignoresSafeArea(edges: .bottom)
     }
 }
 
