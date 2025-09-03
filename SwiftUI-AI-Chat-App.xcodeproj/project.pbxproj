@@ -8,15 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		181455482E68163F00A2ABEF /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 181455472E68163F00A2ABEF /* Config.plist.example */; };
+		1814554A2E6817CC00A2ABEF /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 181455492E6817CC00A2ABEF /* Config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		181455472E68163F00A2ABEF /* Config.plist.example */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
+		181455492E6817CC00A2ABEF /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		18ED37822E6307EA0075D569 /* SwiftUI-AI-Chat-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-AI-Chat-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		18ED37842E6307EA0075D569 /* SwiftUI-AI-Chat-App */ = {
+		181455722E68189C00A2ABEF /* SwiftUI-AI-Chat-App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "SwiftUI-AI-Chat-App";
 			sourceTree = "<group>";
@@ -37,8 +39,9 @@
 		18ED37792E6307EA0075D569 = {
 			isa = PBXGroup;
 			children = (
+				181455492E6817CC00A2ABEF /* Config.plist */,
 				181455472E68163F00A2ABEF /* Config.plist.example */,
-				18ED37842E6307EA0075D569 /* SwiftUI-AI-Chat-App */,
+				181455722E68189C00A2ABEF /* SwiftUI-AI-Chat-App */,
 				18ED37832E6307EA0075D569 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,7 +70,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				18ED37842E6307EA0075D569 /* SwiftUI-AI-Chat-App */,
+				181455722E68189C00A2ABEF /* SwiftUI-AI-Chat-App */,
 			);
 			name = "SwiftUI-AI-Chat-App";
 			packageProductDependencies = (
@@ -115,6 +118,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1814554A2E6817CC00A2ABEF /* Config.plist in Resources */,
 				181455482E68163F00A2ABEF /* Config.plist.example in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
