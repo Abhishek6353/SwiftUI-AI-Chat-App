@@ -17,6 +17,6 @@ To run the app locally:
    ```bash
    <string>YOUR_API_KEY_HERE</string>
    ```
-   with your actual Gemini API key from Google AI Studio.
+   with your actual Gemini API key from [Google AI Studio](https://github.com/user/repo/blob/branch/other_file.md).
 
    
