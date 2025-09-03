@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		181455482E68163F00A2ABEF /* Config.plist.example in Resources */ = {isa = PBXBuildFile; fileRef = 181455472E68163F00A2ABEF /* Config.plist.example */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		181455472E68163F00A2ABEF /* Config.plist.example */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Config.plist.example; sourceTree = "<group>"; };
 		18ED37822E6307EA0075D569 /* SwiftUI-AI-Chat-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-AI-Chat-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,6 +37,7 @@
 		18ED37792E6307EA0075D569 = {
 			isa = PBXGroup;
 			children = (
+				181455472E68163F00A2ABEF /* Config.plist.example */,
 				18ED37842E6307EA0075D569 /* SwiftUI-AI-Chat-App */,
 				18ED37832E6307EA0075D569 /* Products */,
 			);
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181455482E68163F00A2ABEF /* Config.plist.example in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
