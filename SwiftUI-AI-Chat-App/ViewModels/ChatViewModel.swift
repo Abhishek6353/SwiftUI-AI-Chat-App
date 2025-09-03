@@ -7,38 +7,28 @@
 
 import SwiftUI
 
+@MainActor
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
-    @Published var currentInput: String = ""
+    @Published var isLoading: Bool = false
     
-    // Static sample conversation
-    static let sampleConversation: [Message] = [
-        Message(text: "Hello Askly 👋", isUser: true),
-        Message(text: "Hi there! How can I help you today?", isUser: false),
-        Message(text: "Can you explain quantum computing in simple terms?", isUser: true),
-        Message(text: "Sure! Quantum computing uses quantum bits (qubits) instead of regular bits. Qubits can be 0 and 1 at the same time, allowing computers to solve some problems much faster.", isUser: false),
-        Message(text: "Wow, that’s cool!", isUser: true),
-        Message(text: "It really is! Would you like me to give an analogy?", isUser: false)
-    ]
+    private let geminiService = GeminiService()
     
-    init() {
-        // Load sample conversation
-        self.messages = ChatViewModel.sampleConversation
-    }
-    
-    func sendMessage() {
-        guard !currentInput.isEmpty else { return }
+    func sendMessage(_ text: String) {
+        let userMsg = Message(text: text, isUser: true)
+        messages.append(userMsg)
         
-        let userMessage = Message(text: currentInput, isUser: true)
-        messages.append(userMessage)
-        
-        // Clear input
-        currentInput = ""
-        
-        // Fake AI response
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let reply = Message(text: "🤖 This is a placeholder AI response to: '\(userMessage.text)'", isUser: false)
-            self.messages.append(reply)
+        Task {
+            do {
+                isLoading = true
+                let reply = try await geminiService.sendMessage(prompt: text)
+                let aiMsg = Message(text: reply, isUser: false)
+                messages.append(aiMsg)
+                isLoading = false
+            } catch {
+                messages.append(Message(text: "❌ \(error.localizedDescription)", isUser: false))
+                isLoading = false
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ struct ChatView: View {
     @State private var messageText: String = ""
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ZStack {
                 HStack {
                     Button(action: {
@@ -60,8 +60,10 @@ struct ChatView: View {
                     }
                 }
                 .ignoresSafeArea(.keyboard, edges: .bottom)
-
             }
+            .padding(.bottom, 10)
+            .scrollIndicators(ScrollIndicatorVisibility.hidden)
+
             
             HStack {
                 TextField(
@@ -74,23 +76,29 @@ struct ChatView: View {
                 .padding(.horizontal, 10)
                 .foregroundColor(.primaryText)
                 
-                Button(action: {
-                    guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-//                    vm.messages.append(Message(text: messageText, isUser: true))
-                    vm.currentInput = messageText
-                    vm.sendMessage()
-                    messageText = ""
-                    
-                }) {
-                    Image(systemName: "arrow.up")
-                        .foregroundColor(.primaryWhite)
+                if vm.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .primaryOrange))
                         .frame(width: 40, height: 40)
-                        .background(.primaryOrange)
-                    
+                        .padding(.trailing, 6)
+
+                } else {
+                    Button(action: {
+                        guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+                        vm.sendMessage(messageText)
+                        messageText = ""
+                        
+                    }) {
+                        Image(systemName: "arrow.up")
+                            .foregroundColor(.primaryWhite)
+                            .frame(width: 40, height: 40)
+                            .background(.primaryOrange)
+                        
+                    }
+                    .clipShape(.circle)
+                    .padding(.trailing, 6)
                 }
-                .clipShape(.circle)
-                .padding(.trailing, 6)
-                
+
             }
             .frame(height: 52)
             .background(.secondaryBackground)
