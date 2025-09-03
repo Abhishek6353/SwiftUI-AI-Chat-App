@@ -76,7 +76,9 @@ struct ChatView: View {
                 
                 Button(action: {
                     guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-                    vm.messages.append(Message(text: messageText, isUser: true))
+//                    vm.messages.append(Message(text: messageText, isUser: true))
+                    vm.currentInput = messageText
+                    vm.sendMessage()
                     messageText = ""
                     
                 }) {

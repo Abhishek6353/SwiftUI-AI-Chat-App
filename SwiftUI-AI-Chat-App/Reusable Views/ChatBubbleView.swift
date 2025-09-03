@@ -22,7 +22,9 @@ struct ChatBubbleView: View {
                 .padding(10)
                 .background(message.isUser ? ._3_C_3_C_4_A : ._1_C_1_B_20)
                 .foregroundColor(.white)
-                .border(message.isUser ? .clear : .primaryBorder, width: 2)
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 10).stroke(message.isUser ? Color.clear : .primaryBorder, lineWidth: 2)
+                })
                 .cornerRadius(10)
                 .frame(maxWidth: 320, alignment: message.isUser ? .trailing : .leading)
             if !message.isUser {
