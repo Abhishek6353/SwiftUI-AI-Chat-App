@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct SwiftUI_AI_Chat_AppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject private var authVM = AuthViewModel()
+
     
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
+                .environmentObject(authVM)
         }
     }
 }

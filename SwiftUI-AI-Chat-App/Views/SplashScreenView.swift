@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct SplashScreenView: View {
+    @EnvironmentObject var authVM: AuthViewModel
+    
     @State private var isActive = false
     @State private var scale: CGFloat = 0.8
     @State private var opacity = 0.5
     
     var body: some View {
         if isActive {
-//            HomeView()
-            LoginView()
+            if authVM.isLoggedIn {
+                HomeView()
+            } else {
+                LoginView()
+            }
+            
         } else {
             VStack() {
                 Image("logo") // Replace with your logo
@@ -45,4 +51,5 @@ struct SplashScreenView: View {
 
 #Preview {
     SplashScreenView()
+        .environmentObject(AuthViewModel())
 }

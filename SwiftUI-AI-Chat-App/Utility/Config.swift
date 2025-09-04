@@ -17,3 +17,4 @@ struct Config {
         fatalError("⚠️ GEMINI_API_KEY not set. Please create Config.plist from Config.plist.example")
     }
 }
+    
