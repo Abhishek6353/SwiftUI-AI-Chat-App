@@ -24,36 +24,11 @@ struct LoginView: View {
                     .padding(.top, 60)
                 
                 VStack(spacing: 20) {
-                    // Email Field
-                    TextField(text: $email, prompt: Text("Email").foregroundColor(.gray)) {
-                        EmptyView()
-                    }
-                    .padding()
-                    .background(Color(.secondaryBackground))
-                    .foregroundColor(.primaryText)
-                    .cornerRadius(8)
-                    .overlay(content: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.primaryBorder, lineWidth: 2)
-                    })
-                    .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
-                    
-                    // Password Field
-                    SecureField(text: $password, prompt: Text("Password").foregroundColor(.gray)) {
-                        EmptyView()
-                    }
-                    .padding()
-                    .background(Color(.secondaryBackground))
-                    .foregroundColor(.primaryText)
-                    .cornerRadius(8)
-                    .overlay(content: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 2)
-                    })
-                    .cornerRadius(8)
-                    .autocapitalization(.none)
-                    
+
+                    // Input Fields
+                    FormTextField(placeholder: "Email", text: $email)
+                    FormTextField(placeholder: "Password", text: $password, isSecure: true)
+
                     HStack {
                         Spacer()
                         Button(action: {
