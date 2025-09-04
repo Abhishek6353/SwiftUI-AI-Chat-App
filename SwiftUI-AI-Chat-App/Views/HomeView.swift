@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @EnvironmentObject var authVM: AuthViewModel
+    @State private var showLogoutAlert = false
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -36,9 +40,9 @@ struct HomeView: View {
                     Spacer()
                     
                     Button(action: {
-                        /// Action here
+                        showLogoutAlert = true
                     }) {
-                        Image(systemName: "line.3.horizontal")
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
                             .tint(.primaryWhite)
                             .imageScale(.large)
                             .frame(width: 42, height: 42)
@@ -127,26 +131,19 @@ struct HomeView: View {
                         .padding(.bottom, 10)
                 }
                 
-//                Button(action: {
-//                    ChatView()
-//                }) {
-//                    Text("Ask Me Anything")
-//                        .fontWeight(.bold)
-//                        .font(Font.system(size: 22))
-//                        .foregroundStyle(.primaryWhite)
-//                }
-//                .frame(maxWidth: .infinity)
-//                .frame(height: 60)
-//                .background(.primaryOrange)
-//                .cornerRadius(10)
-//                .padding(.horizontal, 20)
-//                .padding(.bottom, 10)
-                
             }
             .padding(.top, 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.primaryBackground)
             .navigationBarHidden(true)
+            .alert("Logout", isPresented: $showLogoutAlert) {
+                Button("Cancel", role: .cancel) { }
+                Button("Logout", role: .destructive) {
+                    authVM.logout()
+                }
+            } message: {
+                Text("Are you sure you want to logout?")
+            }
         }
     }
     

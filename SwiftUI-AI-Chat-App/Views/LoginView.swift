@@ -28,7 +28,7 @@ struct LoginView: View {
                     VStack(spacing: 20) {
                         
                         // Input Fields
-                        FormTextField(placeholder: "Email", text: $vm.email)
+                        FormTextField(placeholder: "Email", text: $vm.email, keyboardType: .emailAddress)
                         FormTextField(placeholder: "Password", text: $vm.password, isSecure: true)
                         
                         HStack {

@@ -11,6 +11,7 @@ struct FormTextField: View {
     var placeholder: String
     @Binding var text: String
     var isSecure: Bool = false
+    var keyboardType: UIKeyboardType = .default
     
     var body: some View {
         Group {
@@ -34,6 +35,7 @@ struct FormTextField: View {
                 .stroke(.primaryBorder, lineWidth: 2)
         })
         .textInputAutocapitalization(.never)
+        .keyboardType(keyboardType)
         .disableAutocorrection(true)
     }
 }

@@ -29,4 +29,14 @@ class AuthViewModel: ObservableObject {
     var isLoggedIn: Bool {
         return user != nil
     }
+    
+    func logout() {
+        do {
+            try AuthServices.shared.logOut()
+            self.user = nil  
+        } catch {
+            print("Error logging out: \(error.localizedDescription)")
+        }
+    }
+
 }

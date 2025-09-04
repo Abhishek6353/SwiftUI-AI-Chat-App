@@ -26,7 +26,7 @@ struct SignupView: View {
                     
                     // Input Fields
                     FormTextField(placeholder: "Name", text: $vm.name)
-                    FormTextField(placeholder: "Email", text: $vm.email)
+                    FormTextField(placeholder: "Email", text: $vm.email, keyboardType: .emailAddress)
                     FormTextField(placeholder: "Password", text: $vm.password, isSecure: true)
                     
                     // Error Message
