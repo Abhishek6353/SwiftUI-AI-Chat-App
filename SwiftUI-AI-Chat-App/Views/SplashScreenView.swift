@@ -14,7 +14,8 @@ struct SplashScreenView: View {
     
     var body: some View {
         if isActive {
-            HomeView()
+//            HomeView()
+            LoginView()
         } else {
             VStack() {
                 Image("logo") // Replace with your logo
