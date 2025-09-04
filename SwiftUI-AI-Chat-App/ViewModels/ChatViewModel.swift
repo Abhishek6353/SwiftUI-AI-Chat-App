@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-class ChatViewModel: ObservableObject {
+final class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var isLoading: Bool = false
     
