@@ -37,14 +37,20 @@ struct SignupView: View {
                             .frame(alignment: .trailing)
                     }
                     
+                    // Success Message
+                    if vm.isSignedUp {
+                        Text("🎉 Account created! Redirecting to login…")
+                            .foregroundColor(.green)
+                            .font(.caption)
+                            .transition(.opacity)
+                    }
+                    
                     
                     Spacer().frame(height: 10)
                     
                     // Sign Up Button
                     Button(action: {
-                        Task {
-                            await vm.signUp()
-                        }
+                        Task { await vm.signUp() }
                     }) {
                         if vm.isLoading {
                             ProgressView()
@@ -64,6 +70,7 @@ struct SignupView: View {
                                 .cornerRadius(10)
                         }
                     }
+                    .disabled(vm.isLoading)
                     
                     
                     Spacer().frame(height: 10)
@@ -95,8 +102,14 @@ struct SignupView: View {
         .navigationBarHidden(true)
         .scrollDismissesKeyboard(.interactively)
         .scrollIndicators(ScrollIndicatorVisibility.hidden)
+        .onChange(of: vm.isSignedUp) { newValue in
+            if newValue {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    dismiss()
+                }
+            }
+        }
     }
-    
 }
 
 #Preview {
