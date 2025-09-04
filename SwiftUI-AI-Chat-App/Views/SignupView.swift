@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  SignupView.swift
 //  SwiftUI-AI-Chat-App
 //
 //  Created by Apple on 04/09/25.
@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct SignupView: View {
     
+    @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     
@@ -16,15 +17,30 @@ struct LoginView: View {
     var body: some View {
         
         VStack {
-            Text("Login")
+            Text("Sign Up")
                 .foregroundColor(.primaryText)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top, 60)
             
             VStack(spacing: 20) {
+                
+                // Name Field
+                TextField(text: $name, prompt: Text("Name").foregroundColor(.primaryWhite.opacity(0.7))) {
+                    EmptyView()
+                }
+                .padding()
+                .background(Color(.secondaryBackground))
+                .foregroundColor(.primaryText)
+                .cornerRadius(8)
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.primaryBorder, lineWidth: 2)
+                })
+
+                
                 // Email Field
-                TextField(text: $email, prompt: Text("Email").foregroundColor(.gray)) {
+                TextField(text: $email, prompt: Text("Email").foregroundColor(.primaryWhite.opacity(0.7))) {
                     EmptyView()
                 }
                 .padding()
@@ -39,7 +55,7 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 
                 // Password Field
-                SecureField(text: $password, prompt: Text("Password").foregroundColor(.gray)) {
+                SecureField(text: $password, prompt: Text("Password").foregroundColor(.primaryWhite.opacity(0.7))) {
                     EmptyView()
                 }
                 .padding()
@@ -53,23 +69,13 @@ struct LoginView: View {
                 .cornerRadius(8)
                 .autocapitalization(.none)
                 
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        // Forgot password action
-                    }) {
-                        Text("Forgot Password?")
-                            .font(.footnote)
-                            .foregroundColor(.primaryOrange)
-                    }
-                }
+                Spacer().frame(height: 10)
                 
-                
-                // Login Button
+                // Sign Up Button
                 Button(action: {
-                    // Login action
+                    // Sign Up action
                 }) {
-                    Text("Login")
+                    Text("Sign Up")
                         .fontWeight(.bold)
                         .font(.system(size: 22))
                         .foregroundStyle(.primaryWhite)
@@ -94,5 +100,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    SignupView()
 }
