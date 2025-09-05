@@ -37,21 +37,5 @@ class LoginViewModel: ObservableObject {
         
         isLoading = false
     }
-    
-    
-    func resetPassword() async -> Bool {
-        guard !email.isEmpty else {
-            errorMessage = "Please enter your email first"
-            return false
-        }
-        
-        do {
-            try await AuthServices.shared.resetPassword(email: email)
-            return true
-        } catch {
-            errorMessage = error.localizedDescription
-            return false
-        }
-    }
 }
 

@@ -9,9 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State private var email: String = ""
-    @State private var password: String = ""
-    
     @StateObject private var vm = LoginViewModel()
     
     var body: some View {
@@ -33,23 +30,27 @@ struct LoginView: View {
                         
                         HStack {
                             Spacer()
-                            Button(action: {
-                                // Forgot password action
-                            }) {
+                            NavigationLink {
+                                ForgotPassswordView()
+                            } label: {
                                 Text("Forgot Password?")
                                     .font(.footnote)
                                     .foregroundColor(.primaryOrange)
+                                
                             }
                         }
                         
                         // Error Message
                         if let error = vm.errorMessage {
-                            Text(error)
-                                .foregroundColor(.red)
-                                .font(.caption)
-                                .frame(alignment: .trailing)
+                            HStack {
+                                Text(error)
+                                    .foregroundColor(.red)
+                                    .font(.caption)
+                                Spacer()
+                            }
                         }
-                        
+
+
                         
                         // Login Button
                         Button(action: {
@@ -67,8 +68,8 @@ struct LoginView: View {
                                     .cornerRadius(10)
                             } else {
                                 Text("Login")
-                                    .fontWeight(.bold)
-                                    .font(.system(size: 22))
+                                    .fontWeight(.semibold)
+                                    .font(.system(size: 20))
                                     .foregroundStyle(.primaryWhite)
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 52)

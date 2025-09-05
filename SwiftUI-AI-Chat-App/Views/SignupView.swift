@@ -30,13 +30,16 @@ struct SignupView: View {
                     FormTextField(placeholder: "Password", text: $vm.password, isSecure: true)
                     
                     // Error Message
-                    if let error = vm.errorMessage {
-                        Text(error)
-                            .foregroundColor(.red)
-                            .font(.caption)
-                            .frame(alignment: .trailing)
+                    HStack {
+                        if let error = vm.errorMessage {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                        }
+                        Spacer()
                     }
                     
+
                     // Success Message
                     if vm.isSignedUp {
                         Text("🎉 Account created! Redirecting to login…")
@@ -61,8 +64,8 @@ struct SignupView: View {
                                 .cornerRadius(10)
                         } else {
                             Text("Sign Up")
-                                .fontWeight(.bold)
-                                .font(.system(size: 22))
+                                .fontWeight(.semibold)
+                                .font(.system(size: 20))
                                 .foregroundStyle(.primaryWhite)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 52)

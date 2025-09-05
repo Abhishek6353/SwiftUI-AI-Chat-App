@@ -120,8 +120,8 @@ struct HomeView: View {
                 
                 NavigationLink(destination: ChatView()) {
                     Text("Ask Me Anything")
-                        .fontWeight(.bold)
-                        .font(.system(size: 22))
+                        .fontWeight(.semibold)
+                        .font(.system(size: 20))
                         .foregroundStyle(.primaryWhite)
                         .frame(maxWidth: .infinity)
                         .frame(height: 52)
