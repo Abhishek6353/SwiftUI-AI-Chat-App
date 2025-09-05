@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 @MainActor
 class ForgotPasswordViewModel: ObservableObject {
@@ -33,9 +34,23 @@ class ForgotPasswordViewModel: ObservableObject {
             isEmailSent = true
             return true
         } catch {
-            errorMessage = error.localizedDescription
+            let nsError = error as NSError
+            if let authCode = AuthErrorCode(rawValue: nsError.code) {
+                switch authCode {
+                case .userNotFound:
+                    errorMessage = "No account found with this email."
+                case .invalidEmail:
+                    errorMessage = "Please enter a valid email address."
+                default:
+                    errorMessage = nsError.localizedDescription
+                }
+            } else {
+                errorMessage = nsError.localizedDescription
+            }
+
             isLoading = false
             return false
         }
     }
+
 }

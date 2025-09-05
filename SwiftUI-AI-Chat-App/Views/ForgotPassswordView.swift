@@ -14,6 +14,21 @@ struct ForgotPassswordView: View {
     
     var body: some View {
         VStack {
+            
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundStyle(.white)
+                    
+                }
+                .frame(width: 40, height: 40)
+                .background(.secondaryBackground)
+                .clipShape(.circle)
+                Spacer()
+            }
+            
             Text("Forgot Password")
                 .foregroundColor(.primaryText)
                 .font(.largeTitle)
@@ -78,7 +93,7 @@ struct ForgotPassswordView: View {
             
         }
         .padding(.horizontal, 25)
-        .padding(.top, 40)
+//        .padding(.top, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBackground)
         .navigationBarHidden(true)
