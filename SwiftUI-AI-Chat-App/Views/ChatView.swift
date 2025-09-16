@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ChatView: View {
-    
+    let sessionId: String?
     @Environment(\.dismiss) var dismiss
-    @StateObject private var vm = ChatViewModel()
+    @StateObject private var vm: ChatViewModel
     
     @State private var messageText: String = ""
     
+    init(sessionId: String?) {
+        self.sessionId = sessionId
+        _vm = StateObject(wrappedValue: ChatViewModel(sessionId: sessionId))
+    }
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
@@ -112,9 +116,11 @@ struct ChatView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBackground)
         .navigationBarHidden(true)
+        
     }
+    
 }
 
 #Preview {
-    ChatView()
+    ChatView(sessionId: "")
 }

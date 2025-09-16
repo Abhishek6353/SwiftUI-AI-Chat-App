@@ -18,7 +18,7 @@ struct ChatBubbleView: View {
                 Spacer()
             }
             
-            Text(message.text)
+            Text(message.content)
                 .padding(10)
                 .background(message.isUser ? ._3_C_3_C_4_A : ._1_C_1_B_20)
                 .foregroundColor(.white)
@@ -39,8 +39,8 @@ struct ChatBubbleView: View {
 }
 
 #Preview {
-    ChatBubbleView(message: Message(text: "Hi", isUser: true))
-    ChatBubbleView(message: Message(text: "How can I help you?", isUser: false))
-    ChatBubbleView(message: Message(text: "create an app which require info from user and create an working portfolio website.", isUser: true))
-    ChatBubbleView(message: Message(text: "Great question 👍 Let’s walk step-by-step on how to build a basic chat UI in SwiftUI. I’ll show you the MVP version (simple user + AI messages, scrollable bubbles, input bar). Later, you can enhance with real API calls, persistence, and streaming.", isUser: false))
+    ChatBubbleView(message: Message(content: "Hi", isUser: true))
+    ChatBubbleView(message: Message(content: "How can I help you?", isUser: false))
+    ChatBubbleView(message: Message(content: "create an app which require info from user and create an working portfolio website.", isUser: true))
+    ChatBubbleView(message: Message(content: "Great question 👍 Let’s walk step-by-step on how to build a basic chat UI in SwiftUI. I’ll show you the MVP version (simple user + AI messages, scrollable bubbles, input bar). Later, you can enhance with real API calls, persistence, and streaming.", isUser: false))
 }

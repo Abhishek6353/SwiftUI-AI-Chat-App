@@ -11,6 +11,7 @@ struct HomeView: View {
     
     @EnvironmentObject var authVM: AuthViewModel
     @State private var showLogoutAlert = false
+    @StateObject private var vm = HomeViewModel()
     
     var body: some View {
         NavigationStack {
@@ -61,23 +62,10 @@ struct HomeView: View {
                         .foregroundStyle(.primaryText)
                     
                     List {
-                        ForEach(0..<5) { item in
-                            HStack {
-                                Image(systemName: "ellipsis.message.fill")
-                                    .frame(width: 32, height: 32)
-                                    .imageScale(.medium)
-                                    .foregroundStyle(.primaryWhite)
-                                
-                                Text("Explain quantum computing in simple terms")
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(.primaryText)
-                                    .lineLimit(1)
-                                
-                                Spacer()
+                        ForEach(vm.sessions) { item in
+                            NavigationLink(destination: ChatView(sessionId: item.id)) {
+                                SessionRowView(session: item)
                             }
-                            .padding(10)
-                            .background(.secondaryBackground)
-                            .cornerRadius(10)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     print("Delete item \(item)")
@@ -85,14 +73,6 @@ struct HomeView: View {
                                     Label("Delete", systemImage: "trash")
                                 }
                             }
-                            //                        .swipeActions(edge: .leading) {
-                            //                            Button {
-                            //                                print("Liked item \(item)")
-                            //                            } label: {
-                            //                                Label("Like", systemImage: "hand.thumbsup.fill")
-                            //                            }
-                            //                            .tint(.green)
-                            //                        }
                         }
                         .padding(.vertical, 6)
                         .listRowBackground(Color.primaryBackground)
@@ -118,7 +98,7 @@ struct HomeView: View {
                     alignment: .bottom
                 )
                 
-                NavigationLink(destination: ChatView()) {
+                NavigationLink(destination: ChatView(sessionId: nil)) {
                     Text("Ask Me Anything")
                         .fontWeight(.semibold)
                         .font(.system(size: 20))
@@ -147,6 +127,26 @@ struct HomeView: View {
         }
     }
     
+}
+
+struct SessionRowView: View {
+    let session: Session
+    var body: some View {
+        HStack {
+            Image(systemName: "ellipsis.message.fill")
+                .frame(width: 32, height: 32)
+                .imageScale(.medium)
+                .foregroundStyle(.primaryWhite)
+            Text(session.title)
+                .font(.system(size: 16))
+                .foregroundStyle(.primaryText)
+                .lineLimit(1)
+            Spacer()
+        }
+        .padding(10)
+        .background(.secondaryBackground)
+        .cornerRadius(10)
+    }
 }
 
 #Preview {

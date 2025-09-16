@@ -10,8 +10,8 @@ import Foundation
 class GeminiService {
     private let apiKey = Config.geminiApiKey
     private let baseURL = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent")!
-//    private let baseURL = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent")!
-
+    //    private let baseURL = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent")!
+    
     
     func sendMessage(prompt: String) async throws -> String {
         // Build request
@@ -34,7 +34,7 @@ class GeminiService {
         
         // Decode response
         let decoded = try JSONDecoder().decode(GeminiResponse.self, from: data)
+        print(decoded.candidates.first?.content ?? "No response")
         return decoded.candidates.first?.content.parts.first?.text ?? "⚠️ No response"
     }
-    
 }

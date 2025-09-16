@@ -13,20 +13,51 @@ final class ChatViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     private let geminiService = GeminiService()
+    private let chatService = ChatService()
+
+    private(set) var sessionId: String?
     
-    func sendMessage(_ text: String) {
-        let userMsg = Message(text: text, isUser: true)
+    init(sessionId: String? = nil) {
+        self.sessionId = sessionId
+        if let sessionId {
+            Task {
+                do {
+                    messages = try await chatService.fetchMessages(for: sessionId)
+                    print("✅ Fetched \(messages.count) messages for session \(sessionId)")
+                } catch {
+                 print("❌ Error fetching messages: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func sendMessage(_ content: String) {
+        let userMsg = Message(content: content, isUser: true)
         messages.append(userMsg)
         
         Task {
             do {
                 isLoading = true
-                let reply = try await geminiService.sendMessage(prompt: text)
-                let aiMsg = Message(text: reply, isUser: false)
+                
+                let reply = try await geminiService.sendMessage(prompt: content)
+                let aiMsg = Message(content: reply, isUser: false)
                 messages.append(aiMsg)
+                
+                // Save chat session if not already saved
+                if sessionId == nil {
+                    sessionId = try await chatService.createSession()
+                }
+                if let sessionId {
+                    // Save user message
+                    try await chatService.addMessage(to: sessionId, message: userMsg)
+                    
+                    // Save AI message
+                    try await chatService.addMessage(to: sessionId, message: aiMsg)
+                }
+                
                 isLoading = false
             } catch {
-                messages.append(Message(text: "❌ \(error.localizedDescription)", isUser: false))
+                messages.append(Message(content: "❌ \(error.localizedDescription)", isUser: false))
                 isLoading = false
             }
         }
