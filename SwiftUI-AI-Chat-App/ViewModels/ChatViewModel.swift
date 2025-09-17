@@ -57,7 +57,11 @@ final class ChatViewModel: ObservableObject {
                 
                 isLoading = false
             } catch {
-                messages.append(Message(content: "❌ \(error.localizedDescription)", isUser: false))
+                if let sessionId {
+                    // Save error message as a Message
+                    let errorMsg = Message(content: "❌ \(error.localizedDescription)", isUser: false)
+                    try await chatService.addMessage(to: sessionId, message: errorMsg)
+                }
                 isLoading = false
             }
         }

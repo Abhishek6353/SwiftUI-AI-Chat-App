@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct Message: Identifiable {
     var id = UUID()

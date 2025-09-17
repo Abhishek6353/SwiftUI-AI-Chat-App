@@ -60,7 +60,7 @@ final class ChatService {
     
     func fetchMessages(for sessionId: String) async throws -> [Message] {
         let querySnapshot = try await db.collection("sessions").document(sessionId).collection("messages")
-//            .order(by: "createdAt", descending: true)
+            .order(by: "createdAt", descending: false)
             .getDocuments()
         print(querySnapshot.documents)
         let messages = querySnapshot.documents.compactMap { Message(document: $0.data(), id: $0.documentID) }
