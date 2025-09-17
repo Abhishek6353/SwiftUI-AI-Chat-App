@@ -5,6 +5,7 @@
 //  Created by Apple on 16/09/25.
 //
 import Foundation
+import FirebaseFirestore
 
 @MainActor
 final class HomeViewModel: ObservableObject {
@@ -12,21 +13,18 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     private let chatService = ChatService()
+    private var sessionListener: ListenerRegistration?
     
     init() {
-        Task {
-            await fetchSessions()
+        isLoading = true
+        sessionListener = chatService.observeSessions { [weak self] sessions in
+            guard let self = self else { return }
+            self.sessions = sessions
+            self.isLoading = false
         }
     }
     
-    func fetchSessions() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        do {
-            self.sessions = try await chatService.fetchSessions()
-        } catch {
-            print("❌ Error fetching sessions: \(error.localizedDescription)")
-        }
+    deinit {
+        sessionListener?.remove()
     }
 }

@@ -38,10 +38,27 @@ final class ChatService {
         guard let uid = Auth.auth().currentUser?.uid else { throw NSError(domain: "Auth", code: 401) }
         let querySnapshot = try await db.collection("sessions")
             .whereField("ownerId", isEqualTo: uid)
-//            .order(by: "updatedAt", descending: true)
+            .order(by: "updatedAt", descending: true)
             .getDocuments()
         let sessions = querySnapshot.documents.compactMap { Session(document: $0) }
         return sessions
+    }
+    
+    /// Observe sessions in real-time for the current user. Returns a listener handle you must retain and remove when done.
+    func observeSessions(completion: @escaping ([Session]) -> Void) -> ListenerRegistration? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
+        let listener = db.collection("sessions")
+            .whereField("ownerId", isEqualTo: uid)
+            .order(by: "updatedAt", descending: true)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    completion([])
+                    return
+                }
+                let sessions = snapshot.documents.compactMap { Session(document: $0) }
+                completion(sessions)
+            }
+        return listener
     }
     
     // MARK: - Messages
