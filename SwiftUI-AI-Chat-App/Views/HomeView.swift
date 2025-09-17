@@ -56,30 +56,51 @@ struct HomeView: View {
                 Spacer(minLength: 30)
                 
                 VStack(alignment: .leading, spacing: 15) {
-                    Text("Last Prompts")
-                        .fontWeight(.bold)
-                        .font(Font.system(size: 20))
-                        .foregroundStyle(.primaryText)
+                    if !vm.sessions.isEmpty {
+                        Text("Last Prompts")
+                            .fontWeight(.bold)
+                            .font(Font.system(size: 20))
+                            .foregroundStyle(.primaryText)
+                    }
                     
-                    List {
-                        ForEach(vm.sessions) { item in
-                            NavigationLink(destination: ChatView(sessionId: item.id)) {
-                                SessionRowView(session: item)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button(role: .destructive) {
-                                    print("Delete item \(item)")
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                    if vm.isLoading {
+                        ProgressView("Loading chats...")
+                            .foregroundColor(.primaryText)
+                            .padding()
+                    } else if vm.sessions.isEmpty {
+                        VStack(spacing: 10) {
+                            Image(systemName: "bubble.left.and.bubble.right")
+                                .font(.system(size: 40))
+                                .foregroundColor(.gray.opacity(0.6))
+                            Text("No chats yet")
+                                .font(.headline)
+                                .foregroundColor(.primaryText)
+                            Text("Start a new chat by tapping\n'Ask Me Anything' below.")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
+                    } else {
+                        List {
+                            ForEach(vm.sessions) { item in
+                                NavigationLink(destination: ChatView(sessionId: item.id)) {
+                                    SessionRowView(session: item)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        print("Delete item \(item)")
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
+                            .padding(.vertical, 6)
+                            .listRowBackground(Color.primaryBackground)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .listRowSeparator(.hidden)
                         }
-                        .padding(.vertical, 6)
-                        .listRowBackground(Color.primaryBackground)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.hidden)
+                        .listStyle(.plain)
                     }
-                    .listStyle(.plain)
                     
                 }
                 .padding(.horizontal, 20)
