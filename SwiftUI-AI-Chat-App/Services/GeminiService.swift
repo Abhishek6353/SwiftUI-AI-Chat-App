@@ -37,4 +37,9 @@ class GeminiService {
         print(decoded.candidates.first?.content ?? "No response")
         return decoded.candidates.first?.content.parts.first?.text ?? "⚠️ No response"
     }
+    
+    func generateTitle(userMessage: String, aiReply: String) async throws -> String {
+        let prompt = "Given the following conversation, generate a relevant topic title in 3-5 words. Only return the title, no explanation.\nUser: \(userMessage)\nGemini: \(aiReply)"
+        return try await sendMessage(prompt: prompt)
+    }
 }

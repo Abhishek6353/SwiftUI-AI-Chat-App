@@ -45,7 +45,18 @@ final class ChatViewModel: ObservableObject {
                 
                 // Save chat session if not already saved
                 if sessionId == nil {
-                    sessionId = try await chatService.createSession()
+                    // Generate a title using the first user message and Gemini reply
+                    var title = "New Chat"
+                    do {
+                        let generatedTitle = try await geminiService.generateTitle(userMessage: userMsg.content, aiReply: aiMsg.content)
+                        if !generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            title = generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                    } catch {
+                        // Fallback to default title if title generation fails
+                        title = content
+                    }
+                    sessionId = try await chatService.createSession(title: title)
                 }
                 if let sessionId {
                     // Save user message
