@@ -16,9 +16,11 @@ final class ChatViewModel: ObservableObject {
     private let chatService = ChatService()
 
     private(set) var sessionId: String?
+    private(set) var sessionTitle: String?
     
-    init(sessionId: String? = nil) {
+    init(sessionId: String? = nil, sessionTitle: String) {
         self.sessionId = sessionId
+        self.sessionTitle = sessionTitle
         if let sessionId {
             Task {
                 do {

@@ -8,38 +8,37 @@
 import SwiftUI
 
 struct ChatView: View {
-    let sessionId: String?
     @Environment(\.dismiss) var dismiss
     @StateObject private var vm: ChatViewModel
     
     @State private var messageText: String = ""
     
-    init(sessionId: String?) {
-        self.sessionId = sessionId
-        _vm = StateObject(wrappedValue: ChatViewModel(sessionId: sessionId))
+    init(sessionId: String?, sessionTitle: String) {
+        _vm = StateObject(wrappedValue: ChatViewModel(sessionId: sessionId, sessionTitle: sessionTitle))
     }
+    
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                HStack {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .tint(.primaryWhite)
-                            .imageScale(.medium)
-                            .frame(width: 42, height: 42)
-                    }
-                    .background(._3_C_3_C_4_A)
-                    .clipShape(Circle())
-                    
-                    Spacer()
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .tint(.primaryWhite)
+                        .imageScale(.medium)
+                        .frame(width: 42, height: 42)
                 }
+                .background(._3_C_3_C_4_A)
+                .clipShape(Circle())
                 
-                Text("New Chat")
+                Text(vm.sessionTitle ?? "New Chat")
                     .fontWeight(.bold)
                     .font(Font.system(size: 20))
                     .foregroundStyle(.primaryText)
+                    .lineLimit(1)
+                    .multilineTextAlignment(.center)
+                
+                Spacer()
                 
             }
             .padding(.horizontal, 20)
@@ -67,7 +66,7 @@ struct ChatView: View {
             }
             .padding(.bottom, 10)
             .scrollIndicators(ScrollIndicatorVisibility.hidden)
-
+            
             
             HStack {
                 TextField(
@@ -85,7 +84,7 @@ struct ChatView: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: .primaryOrange))
                         .frame(width: 40, height: 40)
                         .padding(.trailing, 6)
-
+                    
                 } else {
                     Button(action: {
                         guard !messageText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
@@ -102,7 +101,7 @@ struct ChatView: View {
                     .clipShape(.circle)
                     .padding(.trailing, 6)
                 }
-
+                
             }
             .frame(height: 52)
             .background(.secondaryBackground)
@@ -122,5 +121,5 @@ struct ChatView: View {
 }
 
 #Preview {
-    ChatView(sessionId: "")
+    ChatView(sessionId: "", sessionTitle: "New Chat")
 }

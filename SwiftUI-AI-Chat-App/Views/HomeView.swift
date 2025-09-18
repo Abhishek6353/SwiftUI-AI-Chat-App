@@ -33,7 +33,7 @@ struct HomeView: View {
                             .font(Font.system(size: 18))
                             .foregroundStyle(.primaryText)
                         
-                        Text("Arthur!")
+                        Text(vm.userName.isEmpty ? "User" : vm.userName)
                             .fontWeight(.bold)
                             .font(Font.system(size: 20))
                             .foregroundStyle(.primaryText)
@@ -57,7 +57,7 @@ struct HomeView: View {
                 
                 VStack(alignment: .leading, spacing: 15) {
                     if !vm.sessions.isEmpty {
-                        Text("Last Prompts")
+                        Text("Recent Chats")
                             .fontWeight(.bold)
                             .font(Font.system(size: 20))
                             .foregroundStyle(.primaryText)
@@ -83,7 +83,7 @@ struct HomeView: View {
                     } else {
                         List {
                             ForEach(vm.sessions) { item in
-                                NavigationLink(destination: ChatView(sessionId: item.id)) {
+                                NavigationLink(destination: ChatView(sessionId: item.id, sessionTitle: item.title)) {
                                     SessionRowView(session: item)
                                 }
                                 .swipeActions(edge: .trailing) {
@@ -119,7 +119,7 @@ struct HomeView: View {
                     alignment: .bottom
                 )
                 
-                NavigationLink(destination: ChatView(sessionId: nil)) {
+                NavigationLink(destination: ChatView(sessionId: nil, sessionTitle: "New Chat")) {
                     Text("Ask Me Anything")
                         .fontWeight(.semibold)
                         .font(.system(size: 20))
