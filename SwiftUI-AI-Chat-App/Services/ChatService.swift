@@ -83,4 +83,9 @@ final class ChatService {
         let messages = querySnapshot.documents.compactMap { Message(document: $0.data(), id: $0.documentID) }
         return messages
     }
+    
+    func updateSessionTitle(sessionId: String, title: String) async throws {
+        let sessionRef = db.collection("sessions").document(sessionId)
+        try await sessionRef.updateData(["title": title, "updatedAt": FieldValue.serverTimestamp()])
+    }
 }

@@ -45,25 +45,27 @@ final class ChatViewModel: ObservableObject {
                 
                 // Save chat session if not already saved
                 if sessionId == nil {
-                    // Generate a title using the first user message and Gemini reply
-                    var title = "New Chat"
-                    do {
-                        let generatedTitle = try await geminiService.generateTitle(userMessage: userMsg.content, aiReply: aiMsg.content)
-                        if !generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            title = generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-                        }
-                    } catch {
-                        // Fallback to default title if title generation fails
-                        title = content
-                    }
-                    sessionId = try await chatService.createSession(title: title)
+                    // Create session with placeholder title
+                    sessionId = try await chatService.createSession(title: "New Chat")
                 }
                 if let sessionId {
                     // Save user message
                     try await chatService.addMessage(to: sessionId, message: userMsg)
-                    
                     // Save AI message
                     try await chatService.addMessage(to: sessionId, message: aiMsg)
+                    
+                    // Generate and update title in background
+                    Task {
+                        do {
+                            let generatedTitle = try await geminiService.generateTitle(userMessage: userMsg.content, aiReply: aiMsg.content)
+                            let trimmedTitle = generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                            if !trimmedTitle.isEmpty && trimmedTitle != "New Chat" {
+                                try await chatService.updateSessionTitle(sessionId: sessionId, title: trimmedTitle)
+                            }
+                        } catch {
+                            // Ignore title update errors
+                        }
+                    }
                 }
                 
                 isLoading = false
