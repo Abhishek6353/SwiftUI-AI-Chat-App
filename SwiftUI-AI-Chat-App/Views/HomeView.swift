@@ -36,7 +36,7 @@ struct HomeView: View {
                         Text(vm.userName.isEmpty ? "User" : vm.userName)
                             .fontWeight(.bold)
                             .font(Font.system(size: 20))
-                            .foregroundStyle(.primaryText)
+                            .foregroundStyle(.primaryOrange)
                     }
                     Spacer()
                     
@@ -122,7 +122,7 @@ struct HomeView: View {
                 )
                 
                 NavigationLink(destination: ChatView(sessionId: nil, sessionTitle: "New Chat")) {
-                    Text("Ask Me Anything")
+                    Text("Start New Chat")
                         .fontWeight(.semibold)
                         .font(.system(size: 20))
                         .foregroundStyle(.primaryWhite)
