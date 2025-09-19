@@ -22,9 +22,14 @@ class ForgotPasswordViewModel: ObservableObject {
         isEmailSent = false
         
         guard !email.isEmpty else {
-            errorMessage = "Please enter your email first"
+            errorMessage = "Email is required."
             return false
         }
+        guard InputValidator.isValidEmail(email) else {
+            errorMessage = "Please enter a valid email address."
+            return false
+        }
+
         
         isLoading = true
         
