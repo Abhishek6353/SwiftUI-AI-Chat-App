@@ -34,10 +34,19 @@ final class ChatService {
         return sessionID
     }
     
+    func softDeleteSession(sessionId: String) async throws {
+        let sessionRef = db.collection("sessions").document(sessionId)
+        try await sessionRef.updateData([
+            "status": "deleted",
+            "updatedAt": FieldValue.serverTimestamp()
+        ])
+    }
+
     func fetchSessions() async throws -> [Session] {
         guard let uid = Auth.auth().currentUser?.uid else { throw NSError(domain: "Auth", code: 401) }
         let querySnapshot = try await db.collection("sessions")
             .whereField("ownerId", isEqualTo: uid)
+            .whereField("status", isNotEqualTo: "deleted")
             .order(by: "updatedAt", descending: true)
             .getDocuments()
         let sessions = querySnapshot.documents.compactMap { Session(document: $0) }
@@ -49,6 +58,7 @@ final class ChatService {
         guard let uid = Auth.auth().currentUser?.uid else { return nil }
         let listener = db.collection("sessions")
             .whereField("ownerId", isEqualTo: uid)
+            .whereField("status", isNotEqualTo: "deleted")
             .order(by: "updatedAt", descending: true)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot else {

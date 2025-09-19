@@ -86,9 +86,11 @@ struct HomeView: View {
                                 NavigationLink(destination: ChatView(sessionId: item.id, sessionTitle: item.title)) {
                                     SessionRowView(session: item)
                                 }
-                                .swipeActions(edge: .trailing) {
+                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                     Button(role: .destructive) {
-                                        print("Delete item \(item)")
+                                        Task {
+                                            await vm.deleteSession(item)
+                                        }
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }

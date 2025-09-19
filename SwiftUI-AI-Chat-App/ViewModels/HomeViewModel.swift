@@ -39,4 +39,12 @@ final class HomeViewModel: ObservableObject {
     deinit {
         sessionListener?.remove()
     }
+    
+    func deleteSession(_ session: Session) async {
+        do {
+            try await chatService.softDeleteSession(sessionId: session.id)
+        } catch {
+            print("Failed to delete session: \(error)")
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Session: Identifiable {
+struct Session: Identifiable, Hashable {
     let id: String
     let ownerId: String
     let title: String

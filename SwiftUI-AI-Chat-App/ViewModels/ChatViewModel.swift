@@ -56,16 +56,18 @@ final class ChatViewModel: ObservableObject {
                     // Save AI message
                     try await chatService.addMessage(to: sessionId, message: aiMsg)
                     
-                    // Generate and update title in background
-                    Task {
-                        do {
-                            let generatedTitle = try await geminiService.generateTitle(userMessage: userMsg.content, aiReply: aiMsg.content)
-                            let trimmedTitle = generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-                            if !trimmedTitle.isEmpty && trimmedTitle != "New Chat" {
-                                try await chatService.updateSessionTitle(sessionId: sessionId, title: trimmedTitle)
+                    // Only generate and update title for the first message pair
+                    if messages.count == 2 {
+                        Task {
+                            do {
+                                let generatedTitle = try await geminiService.generateTitle(userMessage: userMsg.content, aiReply: aiMsg.content)
+                                let trimmedTitle = generatedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                                if !trimmedTitle.isEmpty && trimmedTitle != "New Chat" {
+                                    try await chatService.updateSessionTitle(sessionId: sessionId, title: trimmedTitle)
+                                }
+                            } catch {
+                                // Ignore title update errors
                             }
-                        } catch {
-                            // Ignore title update errors
                         }
                     }
                 }
