@@ -17,6 +17,11 @@ struct ChatView: View {
         _vm = StateObject(wrappedValue: ChatViewModel(sessionId: sessionId, sessionTitle: sessionTitle))
     }
     
+    // Computed property to track last message content
+    var lastMessageContent: String {
+        vm.messages.last?.content ?? ""
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -56,6 +61,13 @@ struct ChatView: View {
                     .padding(.top, 30)
                 }
                 .onChange(of: vm.messages.count) { _ in
+                    if let lastID = vm.messages.last?.id {
+                        withAnimation {
+                            proxy.scrollTo(lastID, anchor: .bottom)
+                        }
+                    }
+                }
+                .onChange(of: lastMessageContent) { _ in
                     if let lastID = vm.messages.last?.id {
                         withAnimation {
                             proxy.scrollTo(lastID, anchor: .bottom)
