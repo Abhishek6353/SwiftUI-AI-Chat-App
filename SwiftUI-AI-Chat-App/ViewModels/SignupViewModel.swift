@@ -22,19 +22,23 @@ final class SignupViewModel: ObservableObject {
         errorMessage = nil
         isSignedUp = false
         
-        guard !email.isEmpty else {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedEmail.isEmpty else {
             errorMessage = "Email is required."
             return
         }
-        guard InputValidator.isValidEmail(email) else {
+        guard InputValidator.isValidEmail(trimmedEmail) else {
             errorMessage = "Please enter a valid email address."
             return
         }
-        guard !password.isEmpty else {
+        guard !trimmedPassword.isEmpty else {
             errorMessage = "Password is required."
             return
         }
-        guard InputValidator.isValidPassword(password) else {
+        guard InputValidator.isValidPassword(trimmedPassword) else {
             errorMessage = "Password must be at least 8 characters, include uppercase, lowercase, digit, and special character."
             return
         }
@@ -42,8 +46,8 @@ final class SignupViewModel: ObservableObject {
         isLoading = true
         
         do {
-            let user = try await AuthServices.shared.signUp(email: email, password: password)
-            try await UserService().saveUserProfile(uid: user.uid, name: name, email: email)
+            let user = try await AuthServices.shared.signUp(email: trimmedEmail, password: trimmedPassword)
+            try await UserService().saveUserProfile(uid: user.uid, name: trimmedName, email: trimmedEmail)
             isSignedUp = true
             print("✅ User created & profile saved for \(user.uid)")
             

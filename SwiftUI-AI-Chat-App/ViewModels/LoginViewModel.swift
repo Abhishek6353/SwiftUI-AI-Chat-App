@@ -19,19 +19,22 @@ class LoginViewModel: ObservableObject {
         errorMessage = nil
         isLoggedIn = false
         
-        guard !email.isEmpty else {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedEmail.isEmpty else {
             errorMessage = "Email is required."
             return
         }
-        guard InputValidator.isValidEmail(email) else {
+        guard InputValidator.isValidEmail(trimmedEmail) else {
             errorMessage = "Please enter a valid email address."
             return
         }
-        guard !password.isEmpty else {
+        guard !trimmedPassword.isEmpty else {
             errorMessage = "Password is required."
             return
         }
-        guard InputValidator.isValidPassword(password) else {
+        guard InputValidator.isValidPassword(trimmedPassword) else {
             errorMessage = "Password must be at least 8 characters, include uppercase, lowercase, digit, and special character."
             return
         }
@@ -39,15 +42,14 @@ class LoginViewModel: ObservableObject {
         isLoading = true
         
         do {
-            let uer = try await AuthServices.shared.logIn(email: email, password: password)
+            let uer = try await AuthServices.shared.logIn(email: trimmedEmail, password: trimmedPassword)
             isLoggedIn = true
             print("✅ User logged in: \(uer.uid)")
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = AuthServices.shared.mapFirebaseAuthError(error)
             print("❌ Login failed: \(error)")
         }
         
         isLoading = false
     }
 }
-
