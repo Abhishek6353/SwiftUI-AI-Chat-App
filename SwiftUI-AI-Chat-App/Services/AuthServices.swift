@@ -23,7 +23,7 @@ final class AuthServices {
     // MARK: - Login
     func logIn(email: String, password: String) async throws -> User {
         if Auth.auth().currentUser != nil {
-            try await logOut()
+            try logOut()
         }
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
         return result.user

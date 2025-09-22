@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct Message: Identifiable {
     var id = UUID()
-    let content: String
+    var content: String
     let isUser: Bool   // true = user, false = AI
 }
 
