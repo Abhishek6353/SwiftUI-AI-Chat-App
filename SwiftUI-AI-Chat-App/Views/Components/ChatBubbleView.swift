@@ -18,7 +18,7 @@ struct ChatBubbleView: View {
                 Spacer()
             }
             
-            Text(message.content.isEmpty && !message.isUser ? "..." : message.content)
+            Text(.init(message.content.isEmpty && !message.isUser ? "..." : message.content))
                 .padding(10)
                 .background(message.isUser ? ._3_C_3_C_4_A : ._1_C_1_B_20)
                 .foregroundColor(.white)
