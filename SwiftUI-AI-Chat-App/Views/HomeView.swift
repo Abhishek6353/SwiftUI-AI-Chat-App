@@ -102,6 +102,7 @@ struct HomeView: View {
                             .listRowSeparator(.hidden)
                         }
                         .listStyle(.plain)
+                        .scrollIndicators(.hidden)
                     }
                     
                 }
