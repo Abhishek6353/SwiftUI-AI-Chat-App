@@ -64,3 +64,4 @@ fastlane/test_output
 # Ignore API key config
 Config.plist
 
+Config/Config.plist
